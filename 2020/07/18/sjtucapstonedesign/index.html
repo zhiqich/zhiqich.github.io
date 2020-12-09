@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Shanghai Jiao Tong University Capstone Design  IntroductionImagine in this pandemic of Covid-19, some engineers have no access to manufacturing machines. Or, imagine we students want to learn to use s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Control of Virtual and Real Manufacturing Systems in AR&#x2F;VR">
+<meta property="og:url" content="http://yoursite.com/2020/07/18/sjtucapstonedesign/index.html">
+<meta property="og:site_name" content="Zhiqi Chen">
+<meta property="og:description" content="Shanghai Jiao Tong University Capstone Design  IntroductionImagine in this pandemic of Covid-19, some engineers have no access to manufacturing machines. Or, imagine we students want to learn to use s">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-01.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-02.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-03.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-04.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-05.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-06.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-07.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-08.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-09.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-10.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-11.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-12.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-13.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sjtucapstonedesign-14.jpg">
+<meta property="article:published_time" content="2020-07-18T21:23:53.000Z">
+<meta property="article:modified_time" content="2020-12-07T15:21:29.000Z">
+<meta property="article:author" content="Zhiqi Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/sjtucapstonedesign-01.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/18/sjtucapstonedesign/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Control of Virtual and Real Manufacturing Systems in AR/VR | Zhiqi Chen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zhiqi Chen</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Story</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-travel">
+
+    <a href="/categories/travel/" rel="section"><i class="fa fa-map fa-fw"></i>Travel</a>
+
+  </li>
+        <li class="menu-item menu-item-game">
+
+    <a href="/categories/game/" rel="section"><i class="fa fa-gamepad fa-fw"></i>Game</a>
+
+  </li>
+        <li class="menu-item menu-item-project">
+
+    <a href="/categories/project/" rel="section"><i class="fa fa-code fa-fw"></i>Project</a>
+
+  </li>
+        <li class="menu-item menu-item-caprice">
+
+    <a href="/categories/caprice/" rel="section"><i class="fa fa-music fa-fw"></i>Caprice</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-envelope fa-fw"></i>Guestbook</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Requirements-and-Concept-Generation"><span class="nav-number">2.</span> <span class="nav-text">Requirements and Concept Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Design-Description"><span class="nav-number">3.</span> <span class="nav-text">Design Description</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VR-System"><span class="nav-number">3.1.</span> <span class="nav-text">VR System</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Real-time-Simulation"><span class="nav-number">3.2.</span> <span class="nav-text">Real-time Simulation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AR-System"><span class="nav-number">3.3.</span> <span class="nav-text">AR System</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prototype"><span class="nav-number">4.</span> <span class="nav-text">Prototype</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VR-System-1"><span class="nav-number">4.1.</span> <span class="nav-text">VR System</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Real-time-Simulation-1"><span class="nav-number">4.2.</span> <span class="nav-text">Real-time Simulation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AR-System-1"><span class="nav-number">4.3.</span> <span class="nav-text">AR System</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Results"><span class="nav-number">5.</span> <span class="nav-text">Results</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VR-Demo"><span class="nav-number">5.1.</span> <span class="nav-text">VR Demo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AR-Demo"><span class="nav-number">5.2.</span> <span class="nav-text">AR Demo</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-and-Conclusions"><span class="nav-number">6.</span> <span class="nav-text">Discussion and Conclusions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Quantitative-experiments"><span class="nav-number">6.1.</span> <span class="nav-text">Quantitative experiments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pros-and-Cons"><span class="nav-number">6.2.</span> <span class="nav-text">Pros and Cons</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#What-if"><span class="nav-number">6.3.</span> <span class="nav-text">What-if</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusions"><span class="nav-number">6.4.</span> <span class="nav-text">Conclusions</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zhiqi Chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhiqich" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhiqich" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:abraxas.zhiqich@gmail.com" title="E-Mail → mailto:abraxas.zhiqich@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/18/sjtucapstonedesign/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zhiqi Chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhiqi Chen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Control of Virtual and Real Manufacturing Systems in AR/VR
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-18 17:23:53" itemprop="dateCreated datePublished" datetime="2020-07-18T17:23:53-04:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-07 10:21:29" itemprop="dateModified" datetime="2020-12-07T10:21:29-05:00">2020-12-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center><i><font color = gray>Shanghai Jiao Tong University Capstone Design</font></i></center>
+
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Imagine in this pandemic of Covid-19, some engineers have no access to manufacturing machines. Or, imagine we students want to learn to use some machines in the factory. How can we learn this online? So our motivation is to use virtual reality and augmented reality technology to synchronously show the manufacturing process and simulate the milling process.</p>
+<p><img src="/images/sjtucapstonedesign-01.jpg" alt=""></p>
+<p>Before heading to the details, we first have a overview of our system. There are three main parts: user, transmission and machine. The remote users could control the machine by gesture and observe the machine with VR headset. The local user can use the mobile application to see a virtual workpiece rendered on the screen. The red arrow represents control signals input; while blue arrows are real-time feedbacks from the machine. Our system looks complicated at first sight, but it would be clear later.</p>
+<p><img src="/images/sjtucapstonedesign-02.jpg" alt=""></p>
+<h3 id="Requirements-and-Concept-Generation"><a href="#Requirements-and-Concept-Generation" class="headerlink" title="Requirements and Concept Generation"></a>Requirements and Concept Generation</h3><p>In terms of needs, for VR part, users require real time synchronization, high degree of freedom, and immersive experience. For AR part, we need precisely positioning and carving. Particularly, a sample of AR effect is shown here. Users will scan the machine without materials to know how an artifact will be manufactured. It helps validate the correctness of manufacturing program without wasting materials. For both subfunctions, users need high portability, low financial cost and low learning cost.</p>
+<p><img src="/images/sjtucapstonedesign-03.jpg" alt=""></p>
+<p>From the needs, we formulate some engineering specifications. We set refresh frequency and latency as the real time criteria and we also add the specifications for object deviation rate, financial cost and so on. The engineering specifications will affect our concept generation and selection.</p>
+<p><img src="/images/sjtucapstonedesign-04.jpg" alt=""></p>
+<p>From the needs, we list out the necessary sub-functions we want to have and choose. We use weight matrices to carry out decision selection based on the engineering specifications. For the user side, we choose HTC Vive Pro as the headset for VR since it a commonly used VR headset with friendly handles and good user experience. We choose smartphones to be the AR terminal because that everyone can download an APP and access to the system. Unity 3D is chose to build the model since it can make and simulate vivid 3D model. For the transmission side, we choose socket connection to reduce the latency and raise the update frequency. Mysql is a stable and fast database that can transmit and store structured data in a short time. For the machine side, we choose Mach3 to control the CNC milling machine, the software can read the real time milling machine status in a low latency.</p>
+<p><img src="/images/sjtucapstonedesign-05.jpg" alt=""></p>
+<h3 id="Design-Description"><a href="#Design-Description" class="headerlink" title="Design Description"></a>Design Description</h3><h4 id="VR-System"><a href="#VR-System" class="headerlink" title="VR System"></a>VR System</h4><p>Now let’s discuss about implementation details. For VR control system part, currently we have implemented environment to enable user to control CNC machine manually to start, move and stop virtually. Also, user may choose to load precompiled Gcode Program to show simulation result of a model. We use Unity Package SteamVR and VRTK to build up the VR environment. Then we setup the control panel by Csharp scripts in Unity which sends user’s commands to MySQL database while simulating CNC machine with data feedback from database.</p>
+<p><img src="/images/sjtucapstonedesign-06.jpg" alt=""></p>
+<h4 id="Real-time-Simulation"><a href="#Real-time-Simulation" class="headerlink" title="Real-time Simulation"></a>Real-time Simulation</h4><p>For real-time simulation, we create a brand new algorithm with several Csharp scripts to simulate real time cutting effect of CNC machine in Unity. Below displays actual effect of two controlling methods. In Unity, the program would first generate enough mesh vertices on surface of the piece. Then, whenever the cutter contacts with the vertices, the vertices will modify its height to display cutting effect. This algorithm ensures real-time connection between devices.</p>
+<p><img src="/images/sjtucapstonedesign-07.jpg" alt=""></p>
+<p><img src="/images/sjtucapstonedesign-08.jpg" alt=""></p>
+<h4 id="AR-System"><a href="#AR-System" class="headerlink" title="AR System"></a>AR System</h4><p>Most parts of the AR environment is a migration from VR. Besides, we utilize vuforia tools to build the AR visualization. We designed the image target to stable the model, which we’ll show later in the demo. Also, we seperate the 3D calculation and the AR visualization to make the whole program run smoothly.</p>
+<p><img src="/images/sjtucapstonedesign-09.jpg" alt=""></p>
+<h3 id="Prototype"><a href="#Prototype" class="headerlink" title="Prototype"></a>Prototype</h3><h4 id="VR-System-1"><a href="#VR-System-1" class="headerlink" title="VR System"></a>VR System</h4><p>The VR system is built up by three parts: from left to right, remote client, MySQL server and Mach3 client. In the remote client, we built a unity model which is divided into four parts: the base and x, y, z axis. The scale of the coordinate and the directions of the axis are consistent with the real machine. Therefore, given the real-world coordinate, the model will visualize the machine correctly. The Mach3 client is a relay between MySQL server and Mach3. It receives commands from sql and sends to Mach3 and also receives coordinates from Mach3 and sends to sql. MySQL then is a data storage for remote communication. The desktop running Mach3 and Mach3 client is connected to the real machine to operate.</p>
+<p><img src="/images/sjtucapstonedesign-10.jpg" alt=""></p>
+<h4 id="Real-time-Simulation-1"><a href="#Real-time-Simulation-1" class="headerlink" title="Real-time Simulation"></a>Real-time Simulation</h4><p>For the real-time transmission, we have two parts. First, the Mach3 client will create connection to the MySQL database and query the data in every loop, which is more than 30Hz, so that once there’s new command (such as “Load” or “Stop”) sent to the database, the client can get it immediately. The second part is the socket transmission. Once the client queries the new command data, it will send it through the socket channel to Mach3. In the meantime, Mach3 VB script will always listen to the socket port, and if there’s any data in the socket channel buffer, it will run sockRead to get the command. With our prototype, the whole transmission process is in real-time.</p>
+<p><img src="/images/sjtucapstonedesign-11.jpg" alt=""></p>
+<h4 id="AR-System-1"><a href="#AR-System-1" class="headerlink" title="AR System"></a>AR System</h4><p>For the AR, the visualization is similar to VR, but it has a different database connection method and a new tag recognition task. Due to mobile security issue, both android and ios don’t allow direct connection to online database. So we wrote a php website on the google cloud platform app engine. It directly connects to the database and opens a web api which is a query to the position data so that on the mobile platform, our program can utilize webrequest package to request the api url to get the data through html form. About the tag recognition, we designed a tag which has a lot of geometric features. The round SJTU logo can help locate the center and the color blocks on the margin have character points which help Vuforia engine determine the direction.</p>
+<p><img src="/images/sjtucapstonedesign-12.jpg" alt=""></p>
+<h3 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h3><h4 id="VR-Demo"><a href="#VR-Demo" class="headerlink" title="VR Demo"></a>VR Demo</h4><p>In the video, the right-hand-side is the laptop running our VR model, and on the left is the real cutting process. We can click buttons or use VR device to remote control Mach3 client which is connected to the real physical machine. And the Mach3 client will send back position and moving information back to VR model for visualization. We can see the latency is very low, and it is due to the internet connection and low computing power of the old lab desktop.</p>
+<iframe width="700" height="394" src="https://www.youtube-nocookie.com/embed/GnndIw2oZjg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h4 id="AR-Demo"><a href="#AR-Demo" class="headerlink" title="AR Demo"></a>AR Demo</h4><p>Here is the AR APP running on the iOS platform. We can either pre-load our JI cutting model into database or run the Gcode in real-time, and the AR APP can visualize it.</p>
+<iframe width="700" height="394" src="https://www.youtube-nocookie.com/embed/nJrR-TTfSw4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h3 id="Discussion-and-Conclusions"><a href="#Discussion-and-Conclusions" class="headerlink" title="Discussion and Conclusions"></a>Discussion and Conclusions</h3><h4 id="Quantitative-experiments"><a href="#Quantitative-experiments" class="headerlink" title="Quantitative experiments"></a>Quantitative experiments</h4><p>After finishing the prototype, we conducted some experiments for validation. Using the network tool Wireshark, we calculated the frequency of the position feedback, which is around 20 packets per second. At the same time, on the RHS the round-trip time graph shows that the latency is around 50ms, which is lower than our expectation 200ms.</p>
+<p><img src="/images/sjtucapstonedesign-13.jpg" alt=""></p>
+<h4 id="Pros-and-Cons"><a href="#Pros-and-Cons" class="headerlink" title="Pros and Cons"></a>Pros and Cons</h4><p>Our system enables remote and real-time simulation. Those who are thousands miles away from the machine can still have access to the control and feedback. The database storage enables the users to recap their Gcode programs. However, due to the hardware setting limit, our computer cannot afford greater amount of calculations for higher precision. If we need to simulate a sophisticated artifact, our current design may not give precise enough outcomes.</p>
+<p><img src="/images/sjtucapstonedesign-14.jpg" alt=""></p>
+<h4 id="What-if"><a href="#What-if" class="headerlink" title="What-if"></a>What-if</h4><p>Reviewing our design, we found many aspects that we could’ve done better. The first point is computer hardware. Since our CNC Milling machine can only support Windows 7 32bit, it later became our performance bottleneck. If we could start over, we should pay more attention to the choice of hardware. Also, we expect that in the future, AR can adapt itself to the nested mobile device.</p>
+<h4 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h4><p>In summary, we are dedicated to a remote, real-time control system. Our design used socket connection and MySQL database to record position parameters. We also designed a new shader algorithm for workpiece simulation. In general, our design meets most of the requirements. The server establishment and shader algorithm are the two most important achievements. During this pandemic, we witnessed the power of remote teamwork, and the importance of time management. We are excited and grateful to be a part of this wonderful journey.</p>
+<p><a href="https://drive.google.com/file/d/1ld2cZ6i5nljHevpbQcafOv1ESgQj428J/view?usp=sharing" target="_blank" rel="noopener">Presentation Slides</a></p>
+<p><a href="https://drive.google.com/file/d/1TCHT4oJmlwYBkmM4SWfCA3eZiQa6z50N/view?usp=sharing" target="_blank" rel="noopener">Thesis Report</a></p>
+<p><a href="https://github.com/zhiqich/VE450" target="_blank" rel="noopener">GitHub Repo</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/11/octopathtraveler/" rel="prev" title="Octopath Traveler">
+      <i class="fa fa-chevron-left"></i> Octopath Traveler
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/18/supervisorycontrol/" rel="next" title="Supervisory Control under Local Mean Payoff Constraints">
+      Supervisory Control under Local Mean Payoff Constraints <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhiqi Chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dfbe77565c6b5bc814cb',
+      clientSecret: 'bf276baf74d1600a1f08070165c05c27839a0f51',
+      repo        : 'zhiqich.github.io',
+      owner       : 'zhiqich',
+      admin       : ['zhiqich'],
+      id          : '84db5db420d52e4db89b08272de6c43a',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
