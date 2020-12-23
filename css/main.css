@@ -1813,6 +1813,15 @@ pre code {
   width: 100%;
   z-index: 1500;
 }
+.reading-progress-bar {
+  background: #37c6c0;
+  height: 3px;
+  left: 0;
+  position: fixed;
+  width: 0;
+  z-index: 1500;
+  top: 0;
+}
 .post-body {
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   overflow-wrap: break-word;
@@ -2753,7 +2762,7 @@ mjx-container[display="true"] + br {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #7a81ff;
+  background: #ffc9ff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
