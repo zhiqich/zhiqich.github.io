@@ -281,7 +281,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-26 00:43:11" itemprop="dateModified" datetime="2020-12-26T00:43:11-05:00">2020-12-26</time>
+                <time title="Modified: 2020-12-26 00:57:35" itemprop="dateModified" datetime="2020-12-26T00:57:35-05:00">2020-12-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -304,19 +304,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <div id="hexo-blog-encrypt" data-wpm="" data-whm="">
-    <div class="hbe-input-container">
-        <input type="password" id="hbePass" placeholder="">
-            <div pseudo="-webkit-textfield-decoration-container">
-                <div>
-                    <div contenteditable="plaintext-only"></div>
-                </div>
-            </div>
-        </input>
-        <label for="hbePass"></label>
-        <div class="bottom-line"></div>
-    </div>
-</div>
+          <h3 id="Chatbot-API-Detail"><a href="#Chatbot-API-Detail" class="headerlink" title="Chatbot API Detail"></a>Chatbot API Detail</h3><ul>
+<li>Request address: <a href="http://api.qingyunke.com/api.php" target="_blank" rel="noopener">http://api.qingyunke.com/api.php</a></li>
+<li>Request method: GET</li>
+<li>Encode: UTF-8</li>
+<li>Request sample: <a href="http://api.qingyunke.com/api.php?key=free&amp;appid=0&amp;msg=msg" target="_blank" rel="noopener">http://api.qingyunke.com/api.php?key=free&amp;appid=0&amp;msg=msg</a></li>
+<li>Response: {“result”:0,”content”:response}</li>
+</ul>
+<h3 id="HTML-API-Request"><a href="#HTML-API-Request" class="headerlink" title="HTML API Request"></a>HTML API Request</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reqListener</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.responseText);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> oReq = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">oReq.addEventListener(<span class="string">"load"</span>, reqListener);</span><br><span class="line">oReq.open(<span class="string">"GET"</span>, <span class="string">"http://api.qingyunke.com/api.php?key=free&amp;appid=0&amp;msg=msg"</span>);</span><br><span class="line">oReq.send();</span><br></pre></td></tr></table></figure>
+
+<h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><ul>
+<li>[Warning] [blocked] The page was not allowed to run insecure content from <a href="http://api.qingyunke.com/api.php?key=free&amp;appid=0&amp;msg=msg" target="_blank" rel="noopener">http://api.qingyunke.com/api.php?key=free&amp;appid=0&amp;msg=msg</a></li>
+<li>Origin null is not allowed by Access-Control-Allow-Origin</li>
+<li>Both of the above two problems are due to Apple’s policy: Safari does not allow users to disable the block on mixed content</li>
+</ul>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><ul>
+<li>Upgrade HTTP connection to HTTPS connection</li>
+<li>Proxy the content through an HTTPS connection</li>
+</ul>
+
       
     </div>
 
