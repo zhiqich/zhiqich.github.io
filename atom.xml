@@ -6,7 +6,7 @@
   <link href="http://yoursite.com/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-04T00:36:23.608Z</updated>
+  <updated>2021-01-21T02:48:59.703Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>7</title>
+    <link href="http://yoursite.com/2021/01/20/7/"/>
+    <id>http://yoursite.com/2021/01/20/7/</id>
+    <published>2021-01-21T02:39:02.000Z</published>
+    <updated>2021-01-21T02:48:59.703Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>“阿收则是出神地忆起，实习演员公演时第一场戏地夜晚。他扮演饭店地门童，而且是开幕时就出场的演员，因此帷幕从他的脚边徐徐上升。对于自己以这身装扮，出现在光雾弥漫的观众前，不禁战栗了起来，觉得自己的存在被别人的眼睛吸走了，转移成别人的存在。他忆起了这份战栗……”</p><p>“至于镜子，她很喜欢放养这些年轻人，因此也很喜欢他们发呆恍神的样子。她直觉地知道，他们并非在想昨晚的女人。镜子也感受到，旅途将尽、疲惫至极反而复苏地兴奋情绪。唯一烦恼的是，强劲的海风是否会吹乱她的头发……”</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="raving" scheme="http://yoursite.com/categories/raving/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>6</title>
@@ -231,31 +256,6 @@
     
     
     <category term="travel" scheme="http://yoursite.com/categories/travel/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>1</title>
-    <link href="http://yoursite.com/2020/10/11/1/"/>
-    <id>http://yoursite.com/2020/10/11/1/</id>
-    <published>2020-10-11T05:14:40.000Z</published>
-    <updated>2020-12-23T05:40:31.765Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>每天待在家里，虽然有很多事要做，但还是感到生活有些无聊。昨天又听到燕池的人海，想到高三在宿舍和室友李锦程、李奕扬一起听歌、看球的事情，突然有些怀念了。不知道他们现在怎么样，好久都没联系了，有机会的话真想好好聊聊。</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="raving" scheme="http://yoursite.com/categories/raving/"/>
     
     
   </entry>
