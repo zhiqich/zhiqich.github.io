@@ -6,7 +6,7 @@
   <link href="http://yoursite.com/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-31T23:53:11.460Z</updated>
+  <updated>2021-02-08T05:28:51.699Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>8</title>
+    <link href="http://yoursite.com/2021/02/08/8/"/>
+    <id>http://yoursite.com/2021/02/08/8/</id>
+    <published>2021-02-08T05:07:44.000Z</published>
+    <updated>2021-02-08T05:28:51.699Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>今早电台随机到了Sufjan Stevens的专辑Greetings From Michigan The Great Lake State，看封面图片有些眼熟，下午码代码的时候突然想起来是在西雅图住的工作室里见到过它的黑胶唱片。算是一个小惊喜，又有点萌生买黑胶唱片机的念头。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="raving" scheme="http://yoursite.com/categories/raving/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Apache Nutch &amp; Solr</title>
@@ -231,31 +256,6 @@
     
     
     <category term="raving" scheme="http://yoursite.com/categories/raving/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>初中毕业典礼</title>
-    <link href="http://yoursite.com/2020/10/26/shyacz/"/>
-    <id>http://yoursite.com/2020/10/26/shyacz/</id>
-    <published>2020-10-26T04:26:23.000Z</published>
-    <updated>2020-12-07T15:21:29.000Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><iframe width="700" height="394" src="https://www.youtube-nocookie.com/embed/kYO2d5OK8wI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="caprice" scheme="http://yoursite.com/categories/caprice/"/>
     
     
   </entry>
