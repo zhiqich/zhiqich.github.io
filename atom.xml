@@ -46,9 +46,9 @@
     <link href="http://yoursite.com/2021/02/10/japan/"/>
     <id>http://yoursite.com/2021/02/10/japan/</id>
     <published>2021-02-11T04:32:11.000Z</published>
-    <updated>2021-02-11T05:08:13.873Z</updated>
+    <updated>2021-02-11T05:16:28.883Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=1&id=1499202794&auto=0&height=66"></iframe>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=530 height=86 src="//music.163.com/outchain/player?type=2&id=1499202794&auto=0&height=66"></iframe>]]></content>
     
     
       
