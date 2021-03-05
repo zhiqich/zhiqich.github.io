@@ -201,7 +201,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -253,6 +253,79 @@
 
         <div class="content index posts-expand">
           
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/04/tethering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zhiqi Chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhiqi Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/04/tethering/" class="post-title-link" itemprop="url">iOS14 USB Tethering Issue on Ubuntu20.04 LTS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-03-04 21:40:00 / Modified: 22:08:14" itemprop="dateCreated datePublished" datetime="2021-03-04T21:40:00-05:00">2021-03-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Issue"><a href="#Issue" class="headerlink" title="Issue"></a>Issue</h2><p>Due to the change of <code>IPHETH_BUF_SIZE</code> parameter from 1516 to 1514 in iOS14, iPhone could not provide tethering connection to Ubuntu20.04 LTS.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Modify the <code>IPHETH_BUF_SIZE</code> parameter in the source file <em>ipheth.c</em>.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br><span class="line">cd /lib/modules/$(uname -r)/kernel/drivers/net/usb/</span><br><span class="line">cp -ia ipheth.ko ipheth.ko.orig</span><br><span class="line">xxd -p -c 20000 ipheth.ko.orig | sed 's/ec05/ea05/g' | xxd -r -p &gt; ipheth.ko</span><br><span class="line">strip --strip-debug ipheth.ko</span><br><span class="line">rmmod ipheth; modprobe ipheth</span><br></pre></td></tr></table></figure>
+<h2 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h2><p>Install <code>sudo apt install build-essential</code> if there’s Wi-Fi or ethernet connection. If there’s no internet access available on the device, try downloading Ubuntu deb packages of build-essential <a href="https://drive.google.com/drive/folders/1olJSft3HWL2qdB1lxQxhTkJblFSFSrU1?usp=sharing" target="_blank" rel="noopener">Download</a> and installing with command <code>sudo dpkg -i package_name.deb</code>.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i libc6_2.31-0ubuntu9.1_amd64.deb</span><br><span class="line">sudo dpkg -i manpages-dev_5.05-1_all.deb</span><br><span class="line">sudo dpkg -i binutils-common_2.34-6ubuntu1_amd64.deb</span><br><span class="line">sudo dpkg -i linux-libc-dev_5.4.0-48.52_amd64.deb</span><br><span class="line">sudo dpkg -i libctf-nobfd0_2.34-6ubuntu1_amd64.deb</span><br><span class="line">sudo dpkg -i libgomp1_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i libquadmath0_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i libmpc3_1.1.0-1_amd64.deb</span><br><span class="line">sudo dpkg -i libatomic1_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i libubsan1_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i libcrypt-dev_4.4.10-10ubuntu4_amd64.deb</span><br><span class="line">sudo dpkg -i libisl22_0.22.1-1_amd64.deb</span><br><span class="line">sudo dpkg -i libbinutils_2.34-6ubuntu1_amd64.deb</span><br><span class="line">sudo dpkg -i libc-dev-bin_2.31-0ubuntu9.1_amd64.deb</span><br><span class="line">sudo dpkg -i libcc1-0_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i liblsan0_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i libitm1_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i gcc-9-base_9.3.0-10ubuntu2_amd64.deb</span><br><span class="line">sudo dpkg -i libtsan0_10.2.0-5ubuntu1~20.04_amd64.deb</span><br><span class="line">sudo dpkg -i libctf0_2.34-6ubuntu1_amd64.deb</span><br><span class="line">sudo dpkg -i libasan5_9.3.0-10ubuntu2_amd64.deb</span><br><span class="line">sudo dpkg -i cpp-9_9.3.0-10ubuntu2_amd64.deb</span><br><span class="line">sudo dpkg -i libc6-dev_2.31-0ubuntu9.1_amd64.deb</span><br><span class="line">sudo dpkg -i binutils-x86-64-linux-gnu_2.34-6ubuntu1_amd64.deb</span><br><span class="line">sudo dpkg -i binutils_2.34-6ubuntu1_amd64.deb</span><br><span class="line">sudo dpkg -i libgcc-9-dev_9.3.0-10ubuntu2_amd64.deb</span><br><span class="line">sudo dpkg -i cpp_9.3.0-1ubuntu2_amd64.deb</span><br><span class="line">sudo dpkg -i gcc-9_9.3.0-10ubuntu2_amd64.deb</span><br><span class="line">sudo dpkg -i gcc_9.3.0-1ubuntu2_amd64.deb</span><br></pre></td></tr></table></figure>
+<p><i><font color = gray><br>Copyright: Zhihu 「宋泠雨」, CC 4.0 BY-SA<br><a href="https://zhuanlan.zhihu.com/p/342499361\" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/342499361\</a><br>Copyright: CSDN 「恍恍惚惚斯基」, CC 4.0 BY-SA<br><a href="https://blog.csdn.net/weixin_42432439/article/details/108777302" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42432439/article/details/108777302</a><br></font></i></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1006,82 +1079,6 @@
 <li>Upgrade HTTP connection to HTTPS connection</li>
 <li>Proxy the content through an HTTPS connection</li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/19/4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Zhiqi Chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhiqi Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/19/4/" class="post-title-link" itemprop="url">4</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-12-19 00:22:56" itemprop="dateCreated datePublished" datetime="2020-12-19T00:22:56-05:00">2020-12-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-23 00:40:43" itemprop="dateModified" datetime="2020-12-23T00:40:43-05:00">2020-12-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/raving/" itemprop="url" rel="index"><span itemprop="name">raving</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近在卧室新添置了一个小夜灯，也是个小加湿器，造型很简洁，圆底磨砂器皿用来盛水，再加上一个薄薄的白色盖子，感觉有点无印良品的设计。夜晚从水里柔出的光看着格外舒服。我就把它放在床边，睡前就着看会儿书助眠，很安心，慢慢开始理解苦沙弥的习惯了。</p>
-<p>疫情对生活的影响还在持续着，虽然出门散步和跑步的次数慢慢增加了，但多多少少还是会觉得有些无聊，于是买了一把吉他，胡乱弹一弹。怎么说呢，手指头要么不够长按不到品格，要么一直打架找不到对的弦，不过渐渐也开始适应了，而且有一个好处，吉他弹出来的音再怎么糟糕都不至于难听，所以也就不用太担心扰民，可以放心大胆地尝试。</p>
-<p>再让自己放松恢复一段时间，希望能多些聊天讲话的机会。</p>
 
       
     </div>
