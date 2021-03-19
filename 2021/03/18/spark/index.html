@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="InstallationGo to official Apache Spark download webpage and select Spark release version 3.1.1 and package type Source Code. Unzip the downloaded package and build Spark by Apache Maven. 1.&#x2F;build&#x2F;mvn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Configuring Spark Jobs">
+<meta property="og:url" content="http://yoursite.com/2021/03/18/spark/index.html">
+<meta property="og:site_name" content="Zhiqi Chen">
+<meta property="og:description" content="InstallationGo to official Apache Spark download webpage and select Spark release version 3.1.1 and package type Source Code. Unzip the downloaded package and build Spark by Apache Maven. 1.&#x2F;build&#x2F;mvn">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-19T03:26:49.000Z">
+<meta property="article:modified_time" content="2021-03-19T03:27:48.361Z">
+<meta property="article:author" content="Zhiqi Chen">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/03/18/spark/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Learning Configuring Spark Jobs | Zhiqi Chen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Zhiqi Chen" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zhiqi Chen</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Story</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-travel">
+
+    <a href="/categories/travel/" rel="section"><i class="fa fa-map fa-fw"></i>Travel</a>
+
+  </li>
+        <li class="menu-item menu-item-game">
+
+    <a href="/categories/game/" rel="section"><i class="fa fa-gamepad fa-fw"></i>Game</a>
+
+  </li>
+        <li class="menu-item menu-item-project">
+
+    <a href="/categories/project/" rel="section"><i class="fa fa-code fa-fw"></i>Project</a>
+
+  </li>
+        <li class="menu-item menu-item-caprice">
+
+    <a href="/categories/caprice/" rel="section"><i class="fa fa-music fa-fw"></i>Caprice</a>
+
+  </li>
+        <li class="menu-item menu-item-raving">
+
+    <a href="/categories/raving/" rel="section"><i class="fa fa-leaf fa-fw"></i>Raving</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-envelope fa-fw"></i>Guestbook</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Installation"><span class="nav-number">1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Example-Programs"><span class="nav-number">2.</span> <span class="nav-text">Example Programs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SparkPi"><span class="nav-number">2.1.</span> <span class="nav-text">SparkPi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WordCount"><span class="nav-number">2.2.</span> <span class="nav-text">WordCount</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dataset"><span class="nav-number">2.2.1.</span> <span class="nav-text">Dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Gutenberg"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Gutenberg</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Yelp"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">Yelp</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Result"><span class="nav-number">2.2.2.</span> <span class="nav-text">Result</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Gutenberg-1"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">Gutenberg</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Yelp-1"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">Yelp</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration-Impact"><span class="nav-number">3.</span> <span class="nav-text">Configuration Impact</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bug-Fix"><span class="nav-number">3.1.</span> <span class="nav-text">Bug Fix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset-Preparation"><span class="nav-number">3.2.</span> <span class="nav-text">Dataset Preparation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration-File"><span class="nav-number">3.3.</span> <span class="nav-text">Configuration File</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Driver-Memory"><span class="nav-number">3.4.</span> <span class="nav-text">Driver Memory</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1G"><span class="nav-number">3.4.1.</span> <span class="nav-text">1G</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2G"><span class="nav-number">3.4.2.</span> <span class="nav-text">2G</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4G"><span class="nav-number">3.4.3.</span> <span class="nav-text">4G</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8G"><span class="nav-number">3.4.4.</span> <span class="nav-text">8G</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary"><span class="nav-number">3.4.5.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zhiqi Chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhiqich" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhiqich" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:abraxas.zhiqich@gmail.com" title="E-Mail → mailto:abraxas.zhiqich@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://drive.google.com/file/d/1QsHTYJvaFyTb4bGVAiguj1cP1SMGsjlH/view?usp=sharing" title="Resume → https:&#x2F;&#x2F;drive.google.com&#x2F;file&#x2F;d&#x2F;1QsHTYJvaFyTb4bGVAiguj1cP1SMGsjlH&#x2F;view?usp&#x3D;sharing" rel="noopener" target="_blank"><i class="fas fa-id-card fa-fw"></i>Resume</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/18/spark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zhiqi Chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhiqi Chen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Learning Configuring Spark Jobs
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-03-18 23:26:49 / Modified: 23:27:48" itemprop="dateCreated datePublished" datetime="2021-03-18T23:26:49-04:00">2021-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>Go to official Apache Spark download <a href="https://spark.apache.org/downloads.html" target="_blank" rel="noopener">webpage</a> and select Spark release version 3.1.1 and package type Source Code. Unzip the downloaded package and build Spark by Apache Maven.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build/mvn -DskipTests clean package</span><br></pre></td></tr></table></figure>
+<h2 id="Example-Programs"><a href="#Example-Programs" class="headerlink" title="Example Programs"></a>Example Programs</h2><h3 id="SparkPi"><a href="#SparkPi" class="headerlink" title="SparkPi"></a>SparkPi</h3><p>SparkPi is a compute-intensive task which estimates <code>pi</code> by “throwing darts” at a circle. Random points in the unit square ((0, 0) to (1,1)) are picked and we can see how many fall in the unit circle. The fraction should be <code>pi/4</code>, so we use this to get the estimate.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Usage: pi [partitions]</span></span><br><span class="line">./bin/run-example SparkPi 10/1000/10000</span><br></pre></td></tr></table></figure>
+<p>For 10 partitions, the <code>pi</code> estimation is roughly 3.1392951, and the running time is 0.496385s. For 100 partitions, the <code>pi</code> estimation is roughly 3.1413819, and the running time is 3.576282s. For 1000 partitions, the <code>pi</code> estimation is roughly 3.1416965, and the running time is 43.483414s. For 10000 partitions, the <code>pi</code> estimation is roughly 3.1415915, and the running time is 363.989005s.<br>|Partition|Running Time|Result   |<br>|———|————|———|<br>|10       |0.496s      |3.1392951|<br>|100      |3.576s      |3.1413819|<br>|1000     |43.483s     |3.1416965|<br>|10000    |363.989s    |3.1415915|</p>
+<h3 id="WordCount"><a href="#WordCount" class="headerlink" title="WordCount"></a>WordCount</h3><h4 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h4><h5 id="Gutenberg"><a href="#Gutenberg" class="headerlink" title="Gutenberg"></a>Gutenberg</h5><p>To get big quantities of text without repetition, I crawl text files from Project Gutenberg.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Create directory</span></span><br><span class="line">mkdir Download/temp/</span><br><span class="line">cd Download/temp/</span><br><span class="line"><span class="meta">#</span><span class="bash"> Crawl text files</span></span><br><span class="line">wget -bqc -w 2 -m -H 'http://www.gutenberg.org/robot/harvest?filetypes[]=txt&amp;langs[]=en'</span><br><span class="line"><span class="meta">#</span><span class="bash"> Extract text data</span></span><br><span class="line">mkdir extracted/</span><br><span class="line">find . -name '*.zip' -exec sh -c 'unzip -d extracted &#123;&#125;' ';'</span><br><span class="line">cat extracted/*.txt &gt; temp.txt</span><br></pre></td></tr></table></figure>
+<p>After crawling text data, remove special characters from the text file and fix encoding.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">string = open(<span class="string">'temp.txt'</span>, encoding = <span class="string">"ISO-8859-1"</span>).read()</span><br><span class="line">new_str = re.sub(<span class="string">'[^a-zA-Z0-9\n\.]'</span>, <span class="string">' '</span>, string)</span><br><span class="line">open(<span class="string">'gutenberg.txt'</span>, <span class="string">'w'</span>).write(new_str)</span><br></pre></td></tr></table></figure>
+<h5 id="Yelp"><a href="#Yelp" class="headerlink" title="Yelp"></a>Yelp</h5><p>Download Yelp <a href="https://www.yelp.com/dataset" target="_blank" rel="noopener">dataset</a>. I will focus on the review dataset which contains big quantities of text without repetition and can work as a benchmark. Before I run the example program on the dataset, I first need to convert the JSON file into a CSV file. Since the dataset is too large, I will process the first 1000000 reviews which is almost 6GB.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">review_json_path = <span class="string">'yelp_academic_dataset_review.json'</span></span><br><span class="line">size = <span class="number">1000000</span></span><br><span class="line">review = pd.read_json(review_json_path, lines=<span class="literal">True</span>, dtype=&#123;<span class="string">'review_id'</span>: str, <span class="string">'user_id'</span>: str, <span class="string">'business_id'</span>: str,</span><br><span class="line">                      <span class="string">'stars'</span>: int, <span class="string">'date'</span>: str, <span class="string">'text'</span>: str, <span class="string">'useful'</span>: int, <span class="string">'funny'</span>: int, <span class="string">'cool'</span>: int&#125;, chunksize=size)</span><br><span class="line">chunk_list = []</span><br><span class="line"><span class="keyword">for</span> chunk_review <span class="keyword">in</span> review:</span><br><span class="line">    chunk_review = chunk_review.drop(</span><br><span class="line">        [<span class="string">'review_id'</span>, <span class="string">'user_id'</span>, <span class="string">'business_id'</span>, <span class="string">'stars'</span>, <span class="string">'date'</span>, <span class="string">'useful'</span>, <span class="string">'funny'</span>, <span class="string">'cool'</span>], axis=<span class="number">1</span>)</span><br><span class="line">    chunk_list.append(chunk_review)</span><br><span class="line">df = pd.concat(chunk_list, ignore_index=<span class="literal">True</span>, join=<span class="string">'outer'</span>, axis=<span class="number">0</span>)</span><br><span class="line">csv_name = <span class="string">"result.csv"</span></span><br><span class="line">df.to_csv(csv_name, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p>After getting the CSV file, I also need to clean the data by removing special characters.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">string = open(<span class="string">'yelp.csv'</span>).read()</span><br><span class="line">new_str = re.sub(<span class="string">'[^a-zA-Z0-9\n]'</span>, <span class="string">' '</span>, string)</span><br><span class="line">open(<span class="string">'result.txt'</span>, <span class="string">'w'</span>).write(new_str)</span><br></pre></td></tr></table></figure>
+<h4 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h4><h5 id="Gutenberg-1"><a href="#Gutenberg-1" class="headerlink" title="Gutenberg"></a>Gutenberg</h5><p>Run the following command to count words in the dataset.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit examples/src/main/python/wordcount.py ../gutenberg.txt</span><br></pre></td></tr></table></figure>
+<p>The total running time is 0m6.037s.</p>
+<h5 id="Yelp-1"><a href="#Yelp-1" class="headerlink" title="Yelp"></a>Yelp</h5><p>Run the following command to count words in the dataset.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit examples/src/main/python/wordcount.py ../yelp.txt</span><br></pre></td></tr></table></figure>
+<p>The total running time is 1m56.498s.</p>
+<h2 id="Configuration-Impact"><a href="#Configuration-Impact" class="headerlink" title="Configuration Impact"></a>Configuration Impact</h2><p>I choose to run an example MapReduce program sort to see the configuration impact.</p>
+<h3 id="Bug-Fix"><a href="#Bug-Fix" class="headerlink" title="Bug Fix"></a>Bug Fix</h3><p>The provided python code for the sort program has a bug in line 35. Fix it by removing the translation from string to int.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sortedCount = lines.flatMap(<span class="keyword">lambda</span> x: x.split(<span class="string">' '</span>)) \</span><br><span class="line">    .map(<span class="keyword">lambda</span> x: (x, <span class="number">1</span>)) \</span><br><span class="line">    .sortByKey()</span><br></pre></td></tr></table></figure>
+<h3 id="Dataset-Preparation"><a href="#Dataset-Preparation" class="headerlink" title="Dataset Preparation"></a>Dataset Preparation</h3><p>I will use the Yelp dataset as a benchmark to see the impact configuration. However, since the Yelp dataset I use in the previous section is too large (&gt;5GB), the sort program will always report buffer overflow. So, I will only run the first 500MB dataset (xaa).</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">split -b 500m yelp.txt</span><br></pre></td></tr></table></figure>
+<h3 id="Configuration-File"><a href="#Configuration-File" class="headerlink" title="Configuration File"></a>Configuration File</h3><p>The configuration file of Spark is provided as a template <code>spark-defaults.conf.template</code>. To modify the configuration, first copy the template and change the name to <code>spark-defaults.conf</code>, then I can change the settings by adding properties in this file.</p>
+<h3 id="Driver-Memory"><a href="#Driver-Memory" class="headerlink" title="Driver Memory"></a>Driver Memory</h3><p>The first change in the configuration is <code>spark.driver.memory</code> and <code>spark.driver.maxResultSize</code>. The <code>spark.driver.maxResultSize</code> is set to 10G which is larger than the size of the dataset to ensure the serialization can complete. The driver memory is the amount of memory to use for the driver process. I have tested four values for the driver memory: 1G, 2G, 4G and 8G. The program can run by two commands.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> config directly <span class="keyword">in</span> <span class="built_in">command</span> line</span></span><br><span class="line">time ./bin/spark-submit --driver-memory 1g examples/src/main/python/sort.py ../xaa</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> config <span class="keyword">in</span> config file</span></span><br><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure>
+<h4 id="1G"><a href="#1G" class="headerlink" title="1G"></a>1G</h4><p>The Spark default value of driver memory is 1G. However, it’s too small for the testing dataset and the sort program will report Java heap space out of memory.</p>
+<h4 id="2G"><a href="#2G" class="headerlink" title="2G"></a>2G</h4><p>After raising the driver memory to 2G, the sort program will still report Java heap space out of memory.</p>
+<h4 id="4G"><a href="#4G" class="headerlink" title="4G"></a>4G</h4><p>The sort program will run successfully when the driver memory is raised to 4G. The program can correctly print out the sorted words and the total running time is 3m47.166s (including the printing time).</p>
+<h4 id="8G"><a href="#8G" class="headerlink" title="8G"></a>8G</h4><p>The program can correctly print out the sorted words and the total running time is 3m47.200s (including the printing time), which is similar to 4G.</p>
+<h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><table>
+<thead>
+<tr>
+<th>Driver Memory</th>
+<th>Running Time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1G</td>
+<td>/</td>
+</tr>
+<tr>
+<td>2G</td>
+<td>/</td>
+</tr>
+<tr>
+<td>4G</td>
+<td>3m47.166s</td>
+</tr>
+<tr>
+<td>8G</td>
+<td>3m47.200s</td>
+</tr>
+<tr>
+<td>### Reducer Size</td>
+<td></td>
+</tr>
+<tr>
+<td>The second property to modify is the <code>spark.reducer.maxSizeInFlight</code>. It is the maximum size of map outputs to fetch simultaneously from each reduce task. It represents a fixed memory overhead per reduce task. I would like to see if the fetch size will impact the performance. I will try three sizes: 12M, 48M, and 96M. The <code>spark.reducer.maxSizeInFlight</code> will be added to the property file and the program will run by the following command.</td>
+<td></td>
+</tr>
+<tr>
+<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
+<td></td>
+</tr>
+<tr>
+<td>#### 12M</td>
+<td></td>
+</tr>
+<tr>
+<td>The running time with 12M fetching size is 3m58.065s including the result printing time.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### 48M</td>
+<td></td>
+</tr>
+<tr>
+<td>The Spark default reducer max size in flight is 48M. The running time with 12M fetching size is 4m0.725s including the result printing time.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### 96M</td>
+<td></td>
+</tr>
+<tr>
+<td>The running time with 12M fetching size is 3m56.303s including the result printing time.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### Summary</td>
+<td></td>
+</tr>
+<tr>
+<td>Reducer Size</td>
+<td>Running Time</td>
+</tr>
+<tr>
+<td>————</td>
+<td>————</td>
+</tr>
+<tr>
+<td>12M</td>
+<td>3m58.065s</td>
+</tr>
+<tr>
+<td>48M</td>
+<td>4m0.725s</td>
+</tr>
+<tr>
+<td>96M</td>
+<td>3m56.303s</td>
+</tr>
+<tr>
+<td>### Shuffle Buffer</td>
+<td></td>
+</tr>
+<tr>
+<td>The third property to change is the <code>spark.shuffle.file.buffer</code>. It is the size of the in-memory buffer for each shuffle file output stream. The buffers can reduce the number of disk seeks and system calls made in creating intermediate shuffle files so that larger buffers can theoretically result in better performance. I will try three different buffer sizes: 8K, 32K, and 1M. The following is the running command.</td>
+<td></td>
+</tr>
+<tr>
+<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
+<td></td>
+</tr>
+<tr>
+<td>#### 8K</td>
+<td></td>
+</tr>
+<tr>
+<td>The running time for 8K shuffle buffer is 3m55.807s including result printing time.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### 32K</td>
+<td></td>
+</tr>
+<tr>
+<td>32K is the Spark default value for shuffle file buffer. The running time for 8K shuffle buffer is 3m59.308s including result printing time.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### 1M</td>
+<td></td>
+</tr>
+<tr>
+<td>The running time for 8K shuffle buffer is 3m59.725s including result printing time.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### Summary</td>
+<td></td>
+</tr>
+<tr>
+<td>Shuffle Buffer</td>
+<td>Running Time</td>
+</tr>
+<tr>
+<td>————–</td>
+<td>————</td>
+</tr>
+<tr>
+<td>8K</td>
+<td>3m55.807s</td>
+</tr>
+<tr>
+<td>32M</td>
+<td>3m59.308s</td>
+</tr>
+<tr>
+<td>1M</td>
+<td>3m59.725s</td>
+</tr>
+<tr>
+<td>### Serializer</td>
+<td></td>
+</tr>
+<tr>
+<td>The fourth property to change is the <code>spark.serializer</code>. It is the class to use for serializing objects that will be sent over the network or need to be cached in serialized form. It is said that the default serializer <code>JavaSerializer</code> doesn’t perform well enough. I will try two different buffer sizes: default one and <code>KryoSerializer</code>. The following is the running command.</td>
+<td></td>
+</tr>
+<tr>
+<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
+<td></td>
+</tr>
+<tr>
+<td>#### JavaSerializer</td>
+<td></td>
+</tr>
+<tr>
+<td>The running time without printing out results for default serializer is 6.6012s.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### KryoSerializer</td>
+<td></td>
+</tr>
+<tr>
+<td>The running time without printing out results for default serializer is 6.5324s. In order to run the program without buffer overflow, I set the <code>spark.kryoserializer.buffer.max</code> to 2047M.</td>
+<td></td>
+</tr>
+<tr>
+<td>#### Summary</td>
+<td></td>
+</tr>
+<tr>
+<td>Serializer</td>
+<td>Running Time</td>
+</tr>
+<tr>
+<td>————–</td>
+<td>————</td>
+</tr>
+<tr>
+<td>JavaSerializer</td>
+<td>6.6012s</td>
+</tr>
+<tr>
+<td>KryoSerializer</td>
+<td>6.5324s</td>
+</tr>
+<tr>
+<td>### Thread Number</td>
+<td></td>
+</tr>
+<tr>
+<td>Since I am running Spark on local mode, I can’t control how many cores the program uses to run the benchmark, but I can set how many threads the local program is running on within the limit of the number of logical cores of the device. I have tried five different thread number: 1, 2, 4, 8 and 12. The default thread number is 2. The following is the command running the program.</td>
+<td></td>
+</tr>
+<tr>
+<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --master local[1] --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
+<td></td>
+</tr>
+<tr>
+<td>#### Summary</td>
+<td></td>
+</tr>
+<tr>
+<td>Thread Number</td>
+<td>Running Time</td>
+</tr>
+<tr>
+<td>————–</td>
+<td>————</td>
+</tr>
+<tr>
+<td>1</td>
+<td>32.909s</td>
+</tr>
+<tr>
+<td>2</td>
+<td>18.484s</td>
+</tr>
+<tr>
+<td>4</td>
+<td>9.565s</td>
+</tr>
+<tr>
+<td>8</td>
+<td>7.100s</td>
+</tr>
+<tr>
+<td>12</td>
+<td>6.570s</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/08/10/" rel="prev" title="10">
+      <i class="fa fa-chevron-left"></i> 10
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhiqi Chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dfbe77565c6b5bc814cb',
+      clientSecret: 'bf276baf74d1600a1f08070165c05c27839a0f51',
+      repo        : 'zhiqich.github.io',
+      owner       : 'zhiqich',
+      admin       : ['zhiqich'],
+      id          : '580c5cf7ec050668e17a62035b0f84a2',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>
