@@ -357,7 +357,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-03-18 23:26:49 / Modified: 23:42:20" itemprop="dateCreated datePublished" datetime="2021-03-18T23:26:49-04:00">2021-03-18</time>
+              <time title="Created: 2021-03-18 23:26:49 / Modified: 23:47:10" itemprop="dateCreated datePublished" datetime="2021-03-18T23:26:49-04:00">2021-03-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -384,7 +384,7 @@
 <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build/mvn -DskipTests clean package</span><br></pre></td></tr></table></figure>
 <h2 id="Example-Programs"><a href="#Example-Programs" class="headerlink" title="Example Programs"></a>Example Programs</h2><h3 id="SparkPi"><a href="#SparkPi" class="headerlink" title="SparkPi"></a>SparkPi</h3><p>SparkPi is a compute-intensive task which estimates <code>pi</code> by “throwing darts” at a circle. Random points in the unit square ((0, 0) to (1,1)) are picked and we can see how many fall in the unit circle. The fraction should be <code>pi/4</code>, so we use this to get the estimate.</p>
 <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Usage: pi [partitions]</span></span><br><span class="line">./bin/run-example SparkPi 10/1000/10000</span><br></pre></td></tr></table></figure>
-<p>For 10 partitions, the <code>pi</code> estimation is roughly 3.1392951, and the running time is 0.496385s. For 100 partitions, the <code>pi</code> estimation is roughly 3.1413819, and the running time is 3.576282s. For 1000 partitions, the <code>pi</code> estimation is roughly 3.1416965, and the running time is 43.483414s. For 10000 partitions, the <code>pi</code> estimation is roughly 3.1415915, and the running time is 363.989005s.<br>|Partition|Running Time|Result   |<br>|———|————|———|<br>|10       |0.496s      |3.1392951|<br>|100      |3.576s      |3.1413819|<br>|1000     |43.483s     |3.1416965|<br>|10000    |363.989s    |3.1415915|</p>
+<p>For 10 partitions, the <code>pi</code> estimation is roughly 3.1392951, and the running time is 0.496385s. For 100 partitions, the <code>pi</code> estimation is roughly 3.1413819, and the running time is 3.576282s. For 1000 partitions, the <code>pi</code> estimation is roughly 3.1416965, and the running time is 43.483414s. For 10000 partitions, the <code>pi</code> estimation is roughly 3.1415915, and the running time is 363.989005s.</p>
 <h3 id="WordCount"><a href="#WordCount" class="headerlink" title="WordCount"></a>WordCount</h3><h4 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h4><h5 id="Gutenberg"><a href="#Gutenberg" class="headerlink" title="Gutenberg"></a>Gutenberg</h5><p>To get big quantities of text without repetition, I crawl text files from Project Gutenberg.</p>
 <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Create directory</span></span><br><span class="line">mkdir Download/temp/</span><br><span class="line">cd Download/temp/</span><br><span class="line"><span class="meta">#</span><span class="bash"> Crawl text files</span></span><br><span class="line">wget -bqc -w 2 -m -H 'http://www.gutenberg.org/robot/harvest?filetypes[]=txt&amp;langs[]=en'</span><br><span class="line"><span class="meta">#</span><span class="bash"> Extract text data</span></span><br><span class="line">mkdir extracted/</span><br><span class="line">find . -name '*.zip' -exec sh -c 'unzip -d extracted &#123;&#125;' ';'</span><br><span class="line">cat extracted/*.txt &gt; temp.txt</span><br></pre></td></tr></table></figure>
 <p>After crawling text data, remove special characters from the text file and fix encoding.</p>
@@ -411,222 +411,30 @@
 <h4 id="2G"><a href="#2G" class="headerlink" title="2G"></a>2G</h4><p>After raising the driver memory to 2G, the sort program will still report Java heap space out of memory.</p>
 <h4 id="4G"><a href="#4G" class="headerlink" title="4G"></a>4G</h4><p>The sort program will run successfully when the driver memory is raised to 4G. The program can correctly print out the sorted words and the total running time is 3m47.166s (including the printing time).</p>
 <h4 id="8G"><a href="#8G" class="headerlink" title="8G"></a>8G</h4><p>The program can correctly print out the sorted words and the total running time is 3m47.200s (including the printing time), which is similar to 4G.</p>
+<h3 id="Reducer-Size"><a href="#Reducer-Size" class="headerlink" title="Reducer Size"></a>Reducer Size</h3><p>The second property to modify is the <code>spark.reducer.maxSizeInFlight</code>. It is the maximum size of map outputs to fetch simultaneously from each reduce task. It represents a fixed memory overhead per reduce task. I would like to see if the fetch size will impact the performance. I will try three sizes: 12M, 48M, and 96M. The <code>spark.reducer.maxSizeInFlight</code> will be added to the property file and the program will run by the following command.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure>
+<h4 id="12M"><a href="#12M" class="headerlink" title="12M"></a>12M</h4><p>The running time with 12M fetching size is 3m58.065s including the result printing time.</p>
+<h4 id="48M"><a href="#48M" class="headerlink" title="48M"></a>48M</h4><p>The Spark default reducer max size in flight is 48M. The running time with 12M fetching size is 4m0.725s including the result printing time.</p>
+<h4 id="96M"><a href="#96M" class="headerlink" title="96M"></a>96M</h4><p>The running time with 12M fetching size is 3m56.303s including the result printing time.</p>
+<h3 id="Shuffle-Buffer"><a href="#Shuffle-Buffer" class="headerlink" title="Shuffle Buffer"></a>Shuffle Buffer</h3><p>The third property to change is the <code>spark.shuffle.file.buffer</code>. It is the size of the in-memory buffer for each shuffle file output stream. The buffers can reduce the number of disk seeks and system calls made in creating intermediate shuffle files so that larger buffers can theoretically result in better performance. I will try three different buffer sizes: 8K, 32K, and 1M. The following is the running command.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure>
+<h4 id="8K"><a href="#8K" class="headerlink" title="8K"></a>8K</h4><p>The running time for 8K shuffle buffer is 3m55.807s including result printing time.</p>
+<h4 id="32K"><a href="#32K" class="headerlink" title="32K"></a>32K</h4><p>32K is the Spark default value for shuffle file buffer. The running time for 8K shuffle buffer is 3m59.308s including result printing time.</p>
+<h4 id="1M"><a href="#1M" class="headerlink" title="1M"></a>1M</h4><p>The running time for 8K shuffle buffer is 3m59.725s including result printing time.</p>
+<h3 id="Serializer"><a href="#Serializer" class="headerlink" title="Serializer"></a>Serializer</h3><p>The fourth property to change is the <code>spark.serializer</code>. It is the class to use for serializing objects that will be sent over the network or need to be cached in serialized form. It is said that the default serializer <code>JavaSerializer</code> doesn’t perform well enough. I will try two different buffer sizes: default one and <code>KryoSerializer</code>. The following is the running command.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure>
+<h4 id="JavaSerializer"><a href="#JavaSerializer" class="headerlink" title="JavaSerializer"></a>JavaSerializer</h4><p>The running time without printing out results for default serializer is 6.6012s.</p>
+<h4 id="KryoSerializer"><a href="#KryoSerializer" class="headerlink" title="KryoSerializer"></a>KryoSerializer</h4><p>The running time without printing out results for default serializer is 6.5324s. In order to run the program without buffer overflow, I set the <code>spark.kryoserializer.buffer.max</code> to 2047M.</p>
+<h3 id="Thread-Number"><a href="#Thread-Number" class="headerlink" title="Thread Number"></a>Thread Number</h3><p>Since I am running Spark on local mode, I can’t control how many cores the program uses to run the benchmark, but I can set how many threads the local program is running on within the limit of the number of logical cores of the device. I have tried five different thread number: 1, 2, 4, 8 and 12. The default thread number is 2. The following is the command running the program.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --master local[1] --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure>
 <h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><table>
 <thead>
 <tr>
-<th>Driver Memory</th>
+<th>Thread Number</th>
 <th>Running Time</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>1G</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>2G</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>4G</td>
-<td>3m47.166s</td>
-</tr>
-<tr>
-<td>8G</td>
-<td>3m47.200s</td>
-</tr>
-<tr>
-<td>### Reducer Size</td>
-<td></td>
-</tr>
-<tr>
-<td>The second property to modify is the <code>spark.reducer.maxSizeInFlight</code>. It is the maximum size of map outputs to fetch simultaneously from each reduce task. It represents a fixed memory overhead per reduce task. I would like to see if the fetch size will impact the performance. I will try three sizes: 12M, 48M, and 96M. The <code>spark.reducer.maxSizeInFlight</code> will be added to the property file and the program will run by the following command.</td>
-<td></td>
-</tr>
-<tr>
-<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
-<td></td>
-</tr>
-<tr>
-<td>#### 12M</td>
-<td></td>
-</tr>
-<tr>
-<td>The running time with 12M fetching size is 3m58.065s including the result printing time.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### 48M</td>
-<td></td>
-</tr>
-<tr>
-<td>The Spark default reducer max size in flight is 48M. The running time with 12M fetching size is 4m0.725s including the result printing time.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### 96M</td>
-<td></td>
-</tr>
-<tr>
-<td>The running time with 12M fetching size is 3m56.303s including the result printing time.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### Summary</td>
-<td></td>
-</tr>
-<tr>
-<td>Reducer Size</td>
-<td>Running Time</td>
-</tr>
-<tr>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr>
-<td>12M</td>
-<td>3m58.065s</td>
-</tr>
-<tr>
-<td>48M</td>
-<td>4m0.725s</td>
-</tr>
-<tr>
-<td>96M</td>
-<td>3m56.303s</td>
-</tr>
-<tr>
-<td>### Shuffle Buffer</td>
-<td></td>
-</tr>
-<tr>
-<td>The third property to change is the <code>spark.shuffle.file.buffer</code>. It is the size of the in-memory buffer for each shuffle file output stream. The buffers can reduce the number of disk seeks and system calls made in creating intermediate shuffle files so that larger buffers can theoretically result in better performance. I will try three different buffer sizes: 8K, 32K, and 1M. The following is the running command.</td>
-<td></td>
-</tr>
-<tr>
-<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
-<td></td>
-</tr>
-<tr>
-<td>#### 8K</td>
-<td></td>
-</tr>
-<tr>
-<td>The running time for 8K shuffle buffer is 3m55.807s including result printing time.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### 32K</td>
-<td></td>
-</tr>
-<tr>
-<td>32K is the Spark default value for shuffle file buffer. The running time for 8K shuffle buffer is 3m59.308s including result printing time.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### 1M</td>
-<td></td>
-</tr>
-<tr>
-<td>The running time for 8K shuffle buffer is 3m59.725s including result printing time.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### Summary</td>
-<td></td>
-</tr>
-<tr>
-<td>Shuffle Buffer</td>
-<td>Running Time</td>
-</tr>
-<tr>
-<td>————–</td>
-<td>————</td>
-</tr>
-<tr>
-<td>8K</td>
-<td>3m55.807s</td>
-</tr>
-<tr>
-<td>32M</td>
-<td>3m59.308s</td>
-</tr>
-<tr>
-<td>1M</td>
-<td>3m59.725s</td>
-</tr>
-<tr>
-<td>### Serializer</td>
-<td></td>
-</tr>
-<tr>
-<td>The fourth property to change is the <code>spark.serializer</code>. It is the class to use for serializing objects that will be sent over the network or need to be cached in serialized form. It is said that the default serializer <code>JavaSerializer</code> doesn’t perform well enough. I will try two different buffer sizes: default one and <code>KryoSerializer</code>. The following is the running command.</td>
-<td></td>
-</tr>
-<tr>
-<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
-<td></td>
-</tr>
-<tr>
-<td>#### JavaSerializer</td>
-<td></td>
-</tr>
-<tr>
-<td>The running time without printing out results for default serializer is 6.6012s.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### KryoSerializer</td>
-<td></td>
-</tr>
-<tr>
-<td>The running time without printing out results for default serializer is 6.5324s. In order to run the program without buffer overflow, I set the <code>spark.kryoserializer.buffer.max</code> to 2047M.</td>
-<td></td>
-</tr>
-<tr>
-<td>#### Summary</td>
-<td></td>
-</tr>
-<tr>
-<td>Serializer</td>
-<td>Running Time</td>
-</tr>
-<tr>
-<td>————–</td>
-<td>————</td>
-</tr>
-<tr>
-<td>JavaSerializer</td>
-<td>6.6012s</td>
-</tr>
-<tr>
-<td>KryoSerializer</td>
-<td>6.5324s</td>
-</tr>
-<tr>
-<td>### Thread Number</td>
-<td></td>
-</tr>
-<tr>
-<td>Since I am running Spark on local mode, I can’t control how many cores the program uses to run the benchmark, but I can set how many threads the local program is running on within the limit of the number of logical cores of the device. I have tried five different thread number: 1, 2, 4, 8 and 12. The default thread number is 2. The following is the command running the program.</td>
-<td></td>
-</tr>
-<tr>
-<td><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time ./bin/spark-submit --master local[1] --properties-file conf/spark-defaults.conf examples/src/main/python/sort.py ../xaa</span><br></pre></td></tr></table></figure></td>
-<td></td>
-</tr>
-<tr>
-<td>#### Summary</td>
-<td></td>
-</tr>
-<tr>
-<td>Thread Number</td>
-<td>Running Time</td>
-</tr>
-<tr>
-<td>————–</td>
-<td>————</td>
-</tr>
-<tr>
 <td>1</td>
 <td>32.909s</td>
 </tr>
