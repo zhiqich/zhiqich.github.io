@@ -288,7 +288,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-04-10 00:31:14" itemprop="dateModified" datetime="2021-04-10T00:31:14-04:00">2021-04-10</time>
+                <time title="Modified: 2021-04-10 00:36:39" itemprop="dateModified" datetime="2021-04-10T00:36:39-04:00">2021-04-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -311,15 +311,212 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          Here's something encrypted, password is required to continue reading.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/31/whichmed2get/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <script>
+    function queryDB() {
+        var keyword = document.getElementById('medicine').value;
+        if (keyword == null || keyword == undefined || keyword == '') {
+            keyword = "***";
+            document.getElementById("demo").innerHTML = "";
+        }
+        else {
+            var mode = document.getElementById("mode").selectedIndex;
+            // console.log(mode);
+            var qUrl;
+            switch (mode) {
+                case 0:
+                    qUrl = 'med-en-cn.php?'
+                    break;
+                case 1:
+                    qUrl = 'med-cn-en.php?';
+                    break;
+                case 2:
+                    qUrl = 'vaccination-en-cn.php?'
+                    break;
+                case 3:
+                    qUrl = 'vaccination-cn-en.php?';
+                    break;
+                case 4:
+                    qUrl = 'med-dict-en-cn.php?'
+                    break;
+                case 5:
+                    qUrl = 'med-dict-cn-en.php?';
+                    break;
+                case 6:
+                    qUrl = 'vax-url.php?';
+                    break;
+                default:
+                    break;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                    document.getElementById("demo").innerHTML = xhr.responseText;
+                } else {
+                    console.log(xhr.statusText);
+                    document.getElementById("demo").innerHTML = "error";
+                }
+            };
+            xhr.onerror = function (e) {
+                console.error(xhr.statusText);
+            };
+            xhr.open('GET', 'https://zhiqich.ngrok.io/phpmyadmin/WhichMed2Get/' + qUrl + keyword, true);
+            xhr.send(null);
+        }
+    };
+</script>
+
+<style type="text/css">
+    .search {
+        width: 100%;
+        position: relative;
+        display: flex;
+    }
+
+    .searchTerm {
+        width: 100%;
+        border: 3px solid #00B4CC;
+        border-right: none;
+        padding: 5px;
+        height: 20px;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        color: #9DBFAF;
+    }
+
+    .searchTerm:focus {
+        color: #00B4CC;
+    }
+
+    .searchButton {
+        width: 40px;
+        height: 36px;
+        border: 1px solid #00B4CC;
+        background: #00B4CC;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .wrap {
+        width: 50%;
+        position: absolute;
+        /* top: 50%; */
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #00B4CC;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #00B4CC;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+
+<div class="wrap">
+    <div class="search">
+        <!-- <input type="text" id="medicine" class="searchTerm" placeholder="What medicine are you looking for?"> -->
+        <input type="text" id="medicine" class="searchTerm" placeholder="WhichMed2Get">
+        <button type="submit" onclick="queryDB();" class="searchButton">
+            <i class="fa fa-search"></i>
+        </button>
+   </div>
+</div>
+
+<!-- <center>
+    <label class="switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+    </label>
+</center> -->
+
+<div>
+    <p></br></p>
+</div>
+
+<center>
+    <div>
+        <select name="mode" id="mode">
+            <option value="en2cn">Commonly Used Drugs En to Cn</option>
+            <option value="cn2en">常用药中译英</option>
+            <option value="ven2cn">Vax En to Cn</option>
+            <option value="vcn2en">疫苗中译英</option>
+            <option value="mden2cn">Medical Dictionary En to Cn</option>
+            <option value="mdcn2en">医药词典中译英</option>
+            <option value="vurl">Vax with info link</option>
+        </select>
+    </div>
+</center>
+
+<div>
+    <p></br></p>
+</div>
+
+<div>
+    <p id="demo"></p>
+</div>
+
+<!-- <div>
+    <p></br></p>
+</div> -->
+
+<!-- <center><i><font color = gray></font></i></center> -->
+<center><i><font color = gray>Information provided is for general informational purposes only. No representation or warranty of any kind.</font></i></center>
       
     </div>
 
