@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -170,6 +170,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/18/supervisorycontrol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zhiqi Chen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhiqi Chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Zhiqi Chen">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/07/18/supervisorycontrol/" class="post-title-link" itemprop="url">Supervisory Control under Local Mean Payoff Constraints</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-07-18 17:43:27" itemprop="dateCreated datePublished" datetime="2020-07-18T17:43:27-04:00">2020-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-05 21:07:09" itemprop="dateModified" datetime="2023-01-05T21:07:09-05:00">2023-01-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <center><i><font color = gray>Implementation of algorithms designed by Yiding Ji and Stéphane Lafortune</font></i></center>
+
+<h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>The paper investigates quantitative supervisory control with a local mean payoff objective for weighted discrete event system. The supervisor is designed to ensure that the mean payoff of weights over a fixed number of transitions never drops below a given threshold, aka the system stability. The algorithms transfer the supervisory control problem to a biparty game between the supervisor and the environment.</p>
+<h3 id="Automaton-Model"><a href="#Automaton-Model" class="headerlink" title="Automaton Model"></a>Automaton Model</h3><p>The weighted discrete event system can be modeled as an automaton. Here shows an example. The state with “!” is unsafe ($x_8$). The set of controllable events is $E_c&#x3D;\{a,b,c,d,e,f\}$, and the set of uncontrollable events is $E_{uc}&#x3D;\{u_1,u_2,u_3,u_4,u_5\}$. The localhost website gui is supported by the <em>WebMachine</em> from <em>transitions_gui</em> package.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">visualizeMachine</span>(<span class="params">states, transitions, initial, name, ordered_transitions=<span class="literal">False</span>, ignore_invalid_triggers=<span class="literal">True</span>, auto_transitions=<span class="literal">False</span></span>):</span><br><span class="line">    machine = WebMachine(states=states, transitions=transitions, initial=initial, name=name,</span><br><span class="line">                         ordered_transitions=ordered_transitions,</span><br><span class="line">                         ignore_invalid_triggers=ignore_invalid_triggers,</span><br><span class="line">                         auto_transitions=auto_transitions)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            time.sleep(<span class="number">5</span>)</span><br><span class="line">    <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">        machine.stop_server()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/photo/supervisory-control-01.jpg"></p>
+<h3 id="Algorithm-1"><a href="#Algorithm-1" class="headerlink" title="Algorithm 1"></a>Algorithm 1</h3><p>The first algorithm is to transform the automaton model to a biparty game. It has two steps: insert transition states into the original automaton, and remove deadlocking or unsafe states. We can use DFS to find out all transitions, and generally the inserted transition states of one original state are the combination of all controllable events at that state plus the uncontrollable ones.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">DoDFS</span>(<span class="params">y, X, x0, f, Ec, Euc, w, Qy, Qz, G, fyz, fzy</span>):</span><br><span class="line">    gamma = []</span><br><span class="line">    tEuc = []</span><br><span class="line">    tEc = []</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> f:</span><br><span class="line">        <span class="keyword">if</span> t[<span class="number">1</span>] == y:</span><br><span class="line">            <span class="keyword">if</span> t[<span class="number">0</span>] <span class="keyword">in</span> Euc:</span><br><span class="line">                tEuc.append(t[<span class="number">0</span>])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                tEc.append(t[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(tEuc) == <span class="number">0</span> <span class="keyword">and</span> <span class="built_in">len</span>(tEc) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(tEuc) != <span class="number">0</span> <span class="keyword">and</span> <span class="built_in">len</span>(tEc) == <span class="number">0</span>:</span><br><span class="line">        gamma.append(tEuc)</span><br><span class="line">        G.append(tEuc)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(tEuc) != <span class="number">0</span>:</span><br><span class="line">            gamma.append(tEuc)</span><br><span class="line">            G.append(tEuc)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(tEc) + <span class="number">1</span>):</span><br><span class="line">            l = <span class="built_in">list</span>(combinations(tEc, i))</span><br><span class="line">            <span class="keyword">for</span> r <span class="keyword">in</span> l:</span><br><span class="line">                gamma.append(<span class="built_in">list</span>(r) + tEuc)</span><br><span class="line">                G.append(<span class="built_in">list</span>(r) + tEuc)</span><br><span class="line">    <span class="keyword">for</span> g <span class="keyword">in</span> gamma:</span><br><span class="line">        z = [y] + g</span><br><span class="line">        fyz.append([g, y, z])</span><br><span class="line">        <span class="keyword">if</span> z <span class="keyword">not</span> <span class="keyword">in</span> Qz:</span><br><span class="line">            Qz.append(z)</span><br><span class="line">            <span class="keyword">for</span> e <span class="keyword">in</span> g:</span><br><span class="line">                yn = <span class="string">&#x27;&#x27;</span></span><br><span class="line">                <span class="keyword">for</span> t <span class="keyword">in</span> f:</span><br><span class="line">                    <span class="keyword">if</span> t[<span class="number">0</span>] == e <span class="keyword">and</span> t[<span class="number">1</span>] == y:</span><br><span class="line">                        yn = t[<span class="number">2</span>]</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">if</span> yn[<span class="number">0</span>] == <span class="string">&#x27;!&#x27;</span>:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                fzy.append([e, z, yn])</span><br><span class="line">                <span class="keyword">if</span> yn <span class="keyword">not</span> <span class="keyword">in</span> Qy:</span><br><span class="line">                    Qy.append(yn)</span><br><span class="line">                    DoDFS(yn, X, x0, f, Ec, Euc, w, Qy, Qz, G, fyz, fzy)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">removeUnsafe</span>(<span class="params">states, transitions</span>):</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> states:</span><br><span class="line">        <span class="keyword">if</span> s[<span class="number">0</span>] == <span class="string">&#x27;!&#x27;</span>:</span><br><span class="line">            <span class="keyword">for</span> t <span class="keyword">in</span> transitions:</span><br><span class="line">                <span class="keyword">if</span> t[<span class="number">1</span>] == s <span class="keyword">or</span> t[<span class="number">2</span>] == s:</span><br><span class="line">                    transitions.remove(t)</span><br><span class="line">            states.remove(s)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/photo/supervisory-control-02.jpg"></p>
+<h3 id="Algorithm-2"><a href="#Algorithm-2" class="headerlink" title="Algorithm 2"></a>Algorithm 2</h3><p>The second algorithm is to find the supervisor’s winning region. It first calculates the window mean payoff function which tracks the best worst-case accumulative weights that the supervisor may achieve from a state within N event occurrences (window size). Then the goal equivalents to adopting a control strategy to obtain a nonnegative accumulative payoff while the environment aims to spoil that goal by enforcing negative payoffs. We can use divide-and-conquer to find out all stable windows where the local window mean payoffs are all nonnegative. The example has a window size of three.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">StableWindow</span>(<span class="params">Qy, Qz, fyz, fzy, w, N</span>):</span><br><span class="line">    wgr = []</span><br><span class="line">    h = &#123;&#125;</span><br><span class="line">    h[<span class="number">0</span>] = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> q <span class="keyword">in</span> Qy + Qz:</span><br><span class="line">        h[<span class="number">0</span>][<span class="built_in">str</span>(q)] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, N+<span class="number">1</span>):</span><br><span class="line">        h[i] = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> q <span class="keyword">in</span> Qz:</span><br><span class="line">            ey = [[element[<span class="number">0</span>], element[<span class="number">2</span>]]</span><br><span class="line">                  <span class="keyword">for</span> element <span class="keyword">in</span> fzy <span class="keyword">if</span> element[<span class="number">1</span>] == q <span class="keyword">and</span> element[<span class="number">2</span>] <span class="keyword">in</span> Qy]</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(ey) != <span class="number">0</span>:</span><br><span class="line">                ystates = []</span><br><span class="line">                <span class="keyword">for</span> y <span class="keyword">in</span> ey:</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">str</span>(y[<span class="number">1</span>]) <span class="keyword">in</span> h[i - <span class="number">1</span>].keys():</span><br><span class="line">                        ystates.append(y)</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(ystates) != <span class="number">0</span>:</span><br><span class="line">                    h[i][<span class="built_in">str</span>(q)] = <span class="built_in">min</span>([w[t[<span class="number">0</span>]] + h[i - <span class="number">1</span>][<span class="built_in">str</span>(t[<span class="number">1</span>])]</span><br><span class="line">                                        <span class="keyword">for</span> t <span class="keyword">in</span> ystates])</span><br><span class="line">                    <span class="keyword">if</span> h[i][<span class="built_in">str</span>(q)] &gt;= <span class="number">0</span>:</span><br><span class="line">                        wgr.append(q)</span><br><span class="line">        <span class="keyword">for</span> q <span class="keyword">in</span> Qy:</span><br><span class="line">            ytz = [element[<span class="number">2</span>]</span><br><span class="line">                   <span class="keyword">for</span> element <span class="keyword">in</span> fyz <span class="keyword">if</span> element[<span class="number">1</span>] == q <span class="keyword">and</span> element[<span class="number">2</span>] <span class="keyword">in</span> Qz]</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(ytz) != <span class="number">0</span>:</span><br><span class="line">                zstates = []</span><br><span class="line">                <span class="keyword">for</span> z <span class="keyword">in</span> ytz:</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">str</span>(z) <span class="keyword">in</span> h[i].keys():</span><br><span class="line">                        zstates.append(z)</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(zstates) != <span class="number">0</span>:</span><br><span class="line">                    h[i][<span class="built_in">str</span>(q)] = <span class="built_in">max</span>([h[i][<span class="built_in">str</span>(z)] <span class="keyword">for</span> z <span class="keyword">in</span> zstates])</span><br><span class="line">                    <span class="keyword">if</span> h[i][<span class="built_in">str</span>(q)] &gt;= <span class="number">0</span>:</span><br><span class="line">                        wgr.append(q)</span><br><span class="line">    wg = []</span><br><span class="line">    [wg.append(q) <span class="keyword">for</span> q <span class="keyword">in</span> wgr <span class="keyword">if</span> <span class="keyword">not</span> q <span class="keyword">in</span> wg]</span><br><span class="line">    <span class="keyword">return</span> wg</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">WinLocal</span>(<span class="params">Qy, Qz, fyz, fzy, w, N</span>):</span><br><span class="line">    wg = StableWindow(Qy, Qz, fyz, fzy, w, N)</span><br><span class="line">    wp = []</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(wg) == <span class="built_in">len</span>(Qy + Qz) <span class="keyword">or</span> <span class="built_in">len</span>(wg) == <span class="number">0</span>:</span><br><span class="line">        wp = wg</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        Qyn = []</span><br><span class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> Qy:</span><br><span class="line">            <span class="keyword">if</span> y <span class="keyword">in</span> wg:</span><br><span class="line">                Qyn.append(y)</span><br><span class="line">        Qzn = []</span><br><span class="line">        <span class="keyword">for</span> z <span class="keyword">in</span> Qz:</span><br><span class="line">            <span class="keyword">if</span> z <span class="keyword">in</span> wg:</span><br><span class="line">                Qzn.append(z)</span><br><span class="line">        wp = WinLocal(Qyn, Qzn, fyz, fzy, w, N)</span><br><span class="line">    <span class="keyword">return</span> wp</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">attraction</span>(<span class="params">attr, s0, Q, f, wp</span>):</span><br><span class="line">    <span class="keyword">if</span> s0 <span class="keyword">in</span> wp:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> f:</span><br><span class="line">            <span class="keyword">if</span> i[<span class="number">1</span>] == s0:</span><br><span class="line">                res.append(attraction(attr, i[<span class="number">2</span>], Q, f, wp))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">            <span class="keyword">if</span> i == <span class="literal">False</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        attr.append(s0)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">winRegion</span>(<span class="params">Qy, Qz, fyz, fzy, w, N, y0, wl</span>):</span><br><span class="line">    ws = []</span><br><span class="line">    n = <span class="number">1</span></span><br><span class="line">    Qyw = [y <span class="keyword">for</span> y <span class="keyword">in</span> Qy]</span><br><span class="line">    Qzw = [z <span class="keyword">for</span> z <span class="keyword">in</span> Qz]</span><br><span class="line">    <span class="keyword">while</span> <span class="built_in">len</span>(ws) != <span class="built_in">len</span>(Qy + Qz):</span><br><span class="line">        wp = WinLocal(Qyw, Qzw, fyz, fzy, w, N)</span><br><span class="line">        wl += wp</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(wp) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        attrr = []</span><br><span class="line">        _ = attraction(attrr, y0, Qy + Qz, fzy + fyz, wp)</span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> wp + attrr:</span><br><span class="line">            <span class="keyword">if</span> p <span class="keyword">not</span> <span class="keyword">in</span> ws:</span><br><span class="line">                ws.append(p)</span><br><span class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> Qyw:</span><br><span class="line">            <span class="keyword">if</span> y <span class="keyword">in</span> ws:</span><br><span class="line">                Qyw.remove(y)</span><br><span class="line">        <span class="keyword">for</span> z <span class="keyword">in</span> Qzw:</span><br><span class="line">            <span class="keyword">if</span> z <span class="keyword">in</span> ws:</span><br><span class="line">                Qzw.remove(z)</span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ws</span><br></pre></td></tr></table></figure>
+
+<p><img src="/photo/supervisory-control-03.jpg"></p>
+<h3 id="Algorithm-3"><a href="#Algorithm-3" class="headerlink" title="Algorithm 3"></a>Algorithm 3</h3><p>The third algorithm is to reconstruct and unfold the result of the second algorithm. It has two steps. The first one is to merge all stable windows in the second algorithm together, and add original states back to the automaton so that each original state has only one transit-out arrow. The second one is to remove all the inserted environment states to simplify the automaton and finally give a stable workflow.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Unfold</span>(<span class="params">y0u, Qyu, Qzu, fyzu, fzyu, Qy, Qz, fyz, fzy</span>):</span><br><span class="line">    duplicate = &#123;&#125;</span><br><span class="line">    lru = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> Qy:</span><br><span class="line">        duplicate[i] = <span class="number">1</span></span><br><span class="line">        lru[i] = <span class="number">0</span></span><br><span class="line">    state = y0u</span><br><span class="line">    <span class="keyword">while</span> <span class="built_in">len</span>(Qzu) &lt; <span class="built_in">len</span>(Qz):</span><br><span class="line">        du = <span class="literal">False</span></span><br><span class="line">        sn = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> state <span class="keyword">in</span> Qyu:</span><br><span class="line">            <span class="keyword">if</span> duplicate[state] != <span class="number">1</span>:</span><br><span class="line">                du = <span class="literal">True</span></span><br><span class="line">                sn = <span class="string">&#x27;&#123;&#x27;</span>+state+<span class="string">&#x27;&#125;&#x27;</span>+<span class="built_in">str</span>(lru[state])</span><br><span class="line">                <span class="keyword">if</span> lru[state] != <span class="number">0</span>:</span><br><span class="line">                    Qyu.append(sn)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            Qyu.append(state)</span><br><span class="line">            d = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> fyz:</span><br><span class="line">                <span class="keyword">if</span> i[<span class="number">1</span>] == state:</span><br><span class="line">                    d += <span class="number">1</span></span><br><span class="line">            duplicate[state] = d</span><br><span class="line">        lru[state] = (lru[state] + <span class="number">1</span>) % duplicate[state]</span><br><span class="line">        temp = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> fyz:</span><br><span class="line">            <span class="keyword">if</span> i[<span class="number">1</span>] == state <span class="keyword">and</span> i[<span class="number">2</span>] <span class="keyword">not</span> <span class="keyword">in</span> Qzu:</span><br><span class="line">                temp.append(i)</span><br><span class="line">        z = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(temp) == <span class="number">1</span>:</span><br><span class="line">            z = temp[<span class="number">0</span>][<span class="number">2</span>]</span><br><span class="line">            Qzu.append(z)</span><br><span class="line">            <span class="keyword">if</span> du == <span class="literal">False</span>:</span><br><span class="line">                fyzu.append(temp[<span class="number">0</span>])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                fyzu.append([temp[<span class="number">0</span>][<span class="number">0</span>], sn, z])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            t = [<span class="built_in">len</span>(i[<span class="number">2</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> temp]</span><br><span class="line">            yz = temp[t.index(<span class="built_in">max</span>(t))]</span><br><span class="line">            z = yz[<span class="number">2</span>]</span><br><span class="line">            Qzu.append(z)</span><br><span class="line">            <span class="keyword">if</span> du == <span class="literal">False</span>:</span><br><span class="line">                fyzu.append(yz)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                fyzu.append([yz[<span class="number">0</span>], sn, z])</span><br><span class="line">        y = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> fzy:</span><br><span class="line">            <span class="keyword">if</span> i[<span class="number">1</span>] == z:</span><br><span class="line">                <span class="keyword">if</span> lru[i[<span class="number">2</span>]] == <span class="number">0</span>:</span><br><span class="line">                    fzyu.append(i)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fzyu.append([i[<span class="number">0</span>], i[<span class="number">1</span>], <span class="string">&#x27;&#123;&#x27;</span>+i[<span class="number">2</span>]+<span class="string">&#x27;&#125;&#x27;</span>+<span class="built_in">str</span>(lru[i[<span class="number">2</span>]])])</span><br><span class="line">                y.append(i[<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(y) == <span class="number">1</span>:</span><br><span class="line">            state = y[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            yin = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> y:</span><br><span class="line">                <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> Qyu:</span><br><span class="line">                    yin.append(i)</span><br><span class="line">            num = []</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(yin) == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> y:</span><br><span class="line">                    count = <span class="number">0</span></span><br><span class="line">                    <span class="keyword">for</span> j <span class="keyword">in</span> fzy:</span><br><span class="line">                        <span class="keyword">if</span> j[<span class="number">2</span>] == i:</span><br><span class="line">                            count += <span class="number">1</span></span><br><span class="line">                    num.append(count)</span><br><span class="line">                state = y[num.index(<span class="built_in">min</span>(num))]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> yin:</span><br><span class="line">                    count = <span class="number">0</span></span><br><span class="line">                    <span class="keyword">for</span> j <span class="keyword">in</span> fzy:</span><br><span class="line">                        <span class="keyword">if</span> j[<span class="number">2</span>] == i:</span><br><span class="line">                            count += <span class="number">1</span></span><br><span class="line">                    num.append(count)</span><br><span class="line">                state = y[num.index(<span class="built_in">min</span>(num))]</span><br></pre></td></tr></table></figure>
+
+<p><img src="/photo/supervisory-control-04.jpg"></p>
+<p><img src="/photo/supervisory-control-05.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -364,12 +468,12 @@
           <p>既然不是那么严肃的个人主页，我也会介绍一些喜欢的游戏，音乐和书籍。这次聊一聊歧路旅人，可以说是第一个让我感到惊艳的游戏。当时看了游戏的预告瞬间被精致的画风震撼到，类型和小时候在同学家玩儿的最终幻想有些类似，但光影效果地图细节好了太多太多，可以说是被迷住了，直接下了数字版，完全等不了卡带版本的物流时间。</p>
 <p><img src="/photo/octopath-traveler-02.jpg"></p>
 
-        <div id="aplayer-uapaXnWR" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-YHJATPcN" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-uapaXnWR"),
+            element: document.getElementById("aplayer-YHJATPcN"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -388,12 +492,12 @@
 <p>游戏开始毫不犹豫就选了舞娘作为初始角色，纯粹是因为舞娘的立绘太漂亮了，过于美好以至于让我对旅人这个词产生了形象上的冲突，更加好奇旅途中会有怎样的故事发生。但当我开始舞娘的故事线，听到主题的瞬间，才真正明白为什么歧路旅人会让这么多玩家感动。沙漠中金色的小镇，美丽的舞娘，如此契合的主题。即便结局未知，已然心醉。</p>
 <p><img src="/photo/octopath-traveler-03.jpg"></p>
 
-        <div id="aplayer-SkHPDmJh" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-ancXgCRV" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-SkHPDmJh"),
+            element: document.getElementById("aplayer-ancXgCRV"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -411,12 +515,12 @@
 
 <p>除了每个角色的主题外，地图上不同的地区也会有不一样的主题音乐。其中我最喜欢的是崖地主题，第一次注意到是在盗贼离开Bolderfall启程寻找龙石的时候。长笛（其实有一点像尺八）的声音真的很适合表现旅途的漫长，以至于途经崖地时常驻足。</p>
 
-        <div id="aplayer-jItFxflT" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-WyqyloXt" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-jItFxflT"),
+            element: document.getElementById("aplayer-WyqyloXt"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -435,12 +539,12 @@
 <p>兜兜转转，走完了八条主线，完成了所有的支线任务，甚至听完了所有酒馆中的对话，回过头来串起整个故事，无限感慨。每个故事线的结尾都会有一张角色绘图，我都一一截图保存了下来，每一个角色都有了新的生活，但我始终觉得舞娘的结局有些遗憾。七位旅人启程时有人送，归来时有人迎，唯独舞娘一个人寻找旅程的意义。</p>
 <p><img src="/photo/octopath-traveler-04.jpg"></p>
 
-        <div id="aplayer-zPEvQQPo" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-RLqqnLVr" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-zPEvQQPo"),
+            element: document.getElementById("aplayer-RLqqnLVr"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -840,12 +944,12 @@ We pass forever, craving form that binds."<br>
     <div class="post-body" itemprop="articleBody">
           <p>Calw是德国的一个小镇，也是我最喜爱的作家黑塞的故乡。原是想借着这地名和黑塞书中所感写一两首严肃一些的配乐的，但周遭的变故让我改变了想法。那时对于被困家中还有些许新鲜感，好像突然多了很多自我的时间可以翻翻书，看看电影，听听音乐。于是乎偶然地重温了《挪威的森林》，电影里的插曲也成了循环播放的歌单，夜晚散步的好陪伴。</p>
 
-        <div id="aplayer-TQYdNabD" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-FQhLMAij" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-TQYdNabD"),
+            element: document.getElementById("aplayer-FQhLMAij"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -863,12 +967,12 @@ We pass forever, craving form that binds."<br>
 
 <p>不过说起来，可能都是因为一张明信片吧，来自Goteborg一个晴朗的五月天，一年后再次翻看竟有些恍惚了，我一时不知该怎么称呼她。烟火气和牛肉汤的香味，旧书店，是想象中的模样，却又有些小诙谐。于是就凭着感觉写下了这两小段音乐，盼着有一天可以独自旅行走过老城广场，希望再次相见不必等太久。</p>
 
-        <div id="aplayer-LQRJTARz" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-PMtksczb" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-LQRJTARz"),
+            element: document.getElementById("aplayer-PMtksczb"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -888,12 +992,12 @@ We pass forever, craving form that binds."<br>
 <p>得知奶奶过世的消息是在傍晚太阳落山的时候，我一个人在Northwood散步。奶奶听不大懂普通话，所以每次打电话我都说得很慢，说得很响，这样她就能明白我的意思了，这样她就会开心。可还是因为时间和地域的缘故，距离拉近又疏远。每次回老家都觉得自己像是个客人，生分了拘谨了，但有些东西心里是再清楚不过的。</p>
 <p>这一次是我失约了。哥哥的婚礼，朋友的聚会，说好了的事情。可别怪我呀，我也无能为力，我也很累。</p>
 
-        <div id="aplayer-jatPBXaA" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-RLGafZCC" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-jatPBXaA"),
+            element: document.getElementById("aplayer-RLGafZCC"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -1290,7 +1394,7 @@ everything burns if you use the right spark<br>
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
