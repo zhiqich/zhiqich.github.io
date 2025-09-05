@@ -32,24 +32,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: zhiqich/Portfolio
           token: ${{ secrets.PORTFOLIO_TOKEN }}
           submodules: recursive
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v3
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+        uses: actions/configure-pages@v4
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "24"
       - name: Install Dependencies
         run: npm install
       - name: Build with Hexo
         run: npx hexo g
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
@@ -63,4 +63,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
