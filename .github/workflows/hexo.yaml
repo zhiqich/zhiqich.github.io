@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: zhiqich/Portfolio
           token: ${{ secrets.PORTFOLIO_TOKEN }}
